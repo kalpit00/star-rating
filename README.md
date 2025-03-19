@@ -2,7 +2,13 @@
 
 A modern, responsive web application built with Next.js and React that demonstrates several advanced frontend techniques. This project showcases a virtualized list of rating components with infinite scrolling capabilities.
 
-![Star Rating System](https://via.placeholder.com/800x400?text=Star+Rating+System)
+## Live Demo
+
+**View Live : [star-rating-omega-three.vercel.app/](https://star-rating-omega-three.vercel.app/)** - Hosted on Vercel
+
+### Demo Video
+
+<video src="vid-1.mp4" controls width="100%"></video>
 
 ## Features
 
@@ -37,15 +43,18 @@ export default function RatingForm({
   isExternallySubmitted,
   onRatingChange,
   onSubmit,
-  onReset
+  onReset,
 }: RatingFormProps) {
   // Use local state only if external state is not provided
   const [localRating, setLocalRating] = useState<number | null>(null);
   const [localIsSubmitted, setLocalIsSubmitted] = useState(false);
-  
+
   // Use either external or local state
   const rating = externalRating !== undefined ? externalRating : localRating;
-  const isSubmitted = isExternallySubmitted !== undefined ? isExternallySubmitted : localIsSubmitted;
+  const isSubmitted =
+    isExternallySubmitted !== undefined
+      ? isExternallySubmitted
+      : localIsSubmitted;
 
   const handleStarClick = (selectedRating: number) => {
     if (!isSubmitted) {
@@ -68,7 +77,9 @@ export default function RatingForm({
               key={star}
               onClick={() => handleStarClick(star)}
               disabled={isSubmitted}
-              className={`text-2xl focus:outline-none ${isSubmitted ? "cursor-not-allowed" : ""}`}
+              className={`text-2xl focus:outline-none ${
+                isSubmitted ? "cursor-not-allowed" : ""
+              }`}
             >
               {star <= (rating || 0) ? (
                 <span className="text-yellow-400">★</span>
@@ -102,23 +113,37 @@ export default function VirtualizedRatingList({
   // State for list dimensions
   const [listWidth, setListWidth] = useState(800);
   const [listHeight, setListHeight] = useState(500);
-  
+
   // Row renderer function
-  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+  const Row = ({
+    index,
+    style,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+  }) => {
     const startItemIndex = index * ITEMS_PER_ROW;
     const itemsInRow = Math.min(ITEMS_PER_ROW, TOTAL_ITEMS - startItemIndex);
-    
+
     return (
       <div style={style} className="flex gap-4 justify-center">
         {Array.from({ length: itemsInRow }).map((_, i) => {
           const itemIndex = startItemIndex + i;
           return (
-            <div key={itemIndex} className="flex-1" style={{ maxWidth: itemWidth }}>
-              <RatingForm 
-                id={`item-${itemIndex}`} 
+            <div
+              key={itemIndex}
+              className="flex-1"
+              style={{ maxWidth: itemWidth }}
+            >
+              <RatingForm
+                id={`item-${itemIndex}`}
                 title={`Item ${itemIndex + 1}`}
-                externalRating={ratingsState[`item-${itemIndex}`]?.rating ?? null}
-                isExternallySubmitted={ratingsState[`item-${itemIndex}`]?.isSubmitted ?? false}
+                externalRating={
+                  ratingsState[`item-${itemIndex}`]?.rating ?? null
+                }
+                isExternallySubmitted={
+                  ratingsState[`item-${itemIndex}`]?.isSubmitted ?? false
+                }
                 onRatingChange={handleRatingChange}
                 onSubmit={handleRatingSubmit}
                 onReset={handleRatingReset}
@@ -129,7 +154,7 @@ export default function VirtualizedRatingList({
       </div>
     );
   };
-  
+
   return (
     <InfiniteLoader
       isItemLoaded={isItemLoaded}
@@ -194,15 +219,22 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 export default function RatingListContainer() {
-  const [ratingsState, setRatingsState] = useState<Record<string, {
-    rating: number | null;
-    isSubmitted: boolean;
-  }>>({});
+  const [ratingsState, setRatingsState] = useState<
+    Record<
+      string,
+      {
+        rating: number | null;
+        isSubmitted: boolean;
+      }
+    >
+  >({});
 
   // Calculate current progress percentage
   const calculateProgress = () => {
     const totalItems = 100; // Total number of possible ratings
-    const submittedCount = Object.values(ratingsState).filter(item => item.isSubmitted).length;
+    const submittedCount = Object.values(ratingsState).filter(
+      (item) => item.isSubmitted
+    ).length;
     return Math.round((submittedCount / totalItems) * 100);
   };
 
@@ -216,7 +248,7 @@ export default function RatingListContainer() {
           <h2 className="flex-2 text-lg text-center font-semibold text-gray-800 dark:text-white">
             Virtualized Rating List
           </h2>
-          
+
           {/* Progress bar and reset button */}
           <div className="flex-1 flex justify-end items-center gap-3">
             <div className="w-12 h-12">
@@ -235,7 +267,7 @@ export default function RatingListContainer() {
             {/* Reset button */}
           </div>
         </div>
-        
+
         {/* The virtualized list of rating forms */}
         <div className="mt-2">
           <VirtualizedRatingList
@@ -255,23 +287,30 @@ The application demonstrates effective state management between parent and child
 
 ```tsx
 // Parent component manages state for all rating forms
-const handleRatingStateChange = (newState: Record<string, {
-  rating: number | null;
-  isSubmitted: boolean;
-}>) => {
+const handleRatingStateChange = (
+  newState: Record<
+    string,
+    {
+      rating: number | null;
+      isSubmitted: boolean;
+    }
+  >
+) => {
   setRatingsState(newState);
 };
 
 // Child component receives state and callbacks from parent
-<RatingForm 
-  id={`item-${itemIndex}`} 
+<RatingForm
+  id={`item-${itemIndex}`}
   title={`Item ${itemIndex + 1}`}
   externalRating={ratingsState[`item-${itemIndex}`]?.rating ?? null}
-  isExternallySubmitted={ratingsState[`item-${itemIndex}`]?.isSubmitted ?? false}
+  isExternallySubmitted={
+    ratingsState[`item-${itemIndex}`]?.isSubmitted ?? false
+  }
   onRatingChange={handleRatingChange}
   onSubmit={handleRatingSubmit}
   onReset={handleRatingReset}
-/>
+/>;
 ```
 
 ## Getting Started
