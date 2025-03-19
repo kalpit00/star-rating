@@ -1,0 +1,32 @@
+{
+  "name": "star-rating",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "15.2.3",
+    "react": "^19.0.0",
+    "react-circular-progressbar": "^2.2.0",
+    "react-dom": "^19.0.0",
+    "react-window": "^1.8.11",
+    "react-window-infinite-loader": "^1.0.10"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-window": "^1.8.8",
+    "@types/react-window-infinite-loader": "^1.0.9",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
