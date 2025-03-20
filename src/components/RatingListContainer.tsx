@@ -74,7 +74,7 @@ export default function RatingListContainer() {
           <h2 className="flex-2 text-lg text-center font-semibold text-gray-800 dark:text-white">
             Virtualized Rating List
           </h2>
-          
+
           {/* Progress bar and reset button */}
           <div className="flex-1 flex justify-end items-center gap-3">
             <div className="w-12 h-12">
@@ -83,10 +83,16 @@ export default function RatingListContainer() {
                 text={`${progressPercentage}%`}
                 styles={buildStyles({
                   textSize: "24px",
-                  pathColor: `rgba(62, 152, 199, ${progressPercentage / 100})`,
+                  // Use a solid color for better visibility
+                  pathColor: "#3e98c7",
                   textColor: "#3e98c7",
                   trailColor: "#d6d6d6",
-                  backgroundColor: "#3e98c7",
+                  // Ensure rotation is set to start from the top
+                  rotation: 0,
+                  // Make sure path transition is enabled
+                  pathTransition: "stroke-dashoffset 0.5s ease 0s",
+                  // Ensure the path is visible
+                  strokeLinecap: "round",
                 })}
               />
             </div>
