@@ -17,7 +17,7 @@ export default function Home() {
       </main>
 
       <footer className="mt-8 text-center text-gray-500 dark:text-gray-400 text-xs">
-        <p>Built with Next.js, Tailwind CSS, and react-window</p>
+        <p>Built with Next.js, Tailwind CSS, and React</p>
       </footer>
     </div>
   );

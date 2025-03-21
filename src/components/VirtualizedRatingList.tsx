@@ -20,7 +20,6 @@ const ITEMS_PER_ROW = 2; // 2 columns
 const TOTAL_ROWS = Math.ceil(TOTAL_ITEMS / ITEMS_PER_ROW); // 50 rows
 
 interface VirtualizedRatingListProps {
-  itemWidth?: number;
   itemHeight?: number;
   onRatingStateChange?: (
     state: Record<string, { rating: number | null; isSubmitted: boolean }>
@@ -28,7 +27,6 @@ interface VirtualizedRatingListProps {
 }
 
 export default function VirtualizedRatingList({
-  itemWidth = 400,
   itemHeight = 200,
   onRatingStateChange,
 }: VirtualizedRatingListProps) {
@@ -116,12 +114,12 @@ export default function VirtualizedRatingList({
     // If the row is not loaded, show loading placeholders
     if (!isItemLoaded(index)) {
       return (
-        <div style={style} className="flex gap-4 justify-center">
+        <div style={style} className="flex gap-2 sm:gap-4 justify-center">
           {Array.from({ length: itemsInRow }).map((_, i) => (
             <div
               key={i}
-              className="flex-1 p-6 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md animate-pulse"
-              style={{ height: itemHeight - 20, maxWidth: itemWidth }}
+              className="flex-1 p-3 sm:p-6 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md animate-pulse"
+              style={{ height: itemHeight - 20, maxWidth: "100%" }}
             />
           ))}
         </div>
@@ -130,14 +128,14 @@ export default function VirtualizedRatingList({
 
     // Otherwise, render the actual items
     return (
-      <div style={style} className="flex gap-4 justify-center">
+      <div style={style} className="flex gap-2 sm:gap-4 justify-center">
         {Array.from({ length: itemsInRow }).map((_, i) => {
           const itemIndex = startItemIndex + i;
           return (
             <div
               key={itemIndex}
               className="flex-1"
-              style={{ maxWidth: itemWidth }}
+              style={{ maxWidth: "100%" }} // Allow full width on mobile
             >
               <RatingForm
                 id={`item-${itemIndex}`}
